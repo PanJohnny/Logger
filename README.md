@@ -15,7 +15,7 @@ Add this to your pom.xml and replace VERSION with the latest release tag
 </repository>
 ```
 ```xml
-    <dependency>
+<dependency>
     <groupId>com.github.PanJohnny</groupId>
     <artifactId>Logger</artifactId>
     <version>VERSION</version>

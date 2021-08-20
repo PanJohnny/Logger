@@ -26,16 +26,12 @@ public class Logger {
      * @see LogFormat
      */
     public static void log(String message, LogFormat format) {
-        switch (mode) {
-            case NEW_LINE:
-                stream.println(format.format() + message);
-                break;
-            case ONE_LINE:
-                stream.print(format.format() + message);
-                break;
-            default:
-                stream.println("WARNING: LoggerMode is undefined\n"+format.format() + message);
-                break;
+        if(mode == LoggerMode.NEW_LINE) {
+            stream.println(format.format() + message);
+        } else if(mode == LoggerMode.ONE_LINE) {
+            stream.print(format.format() + message);
+        } else {
+            stream.println("WARNING: LoggerMode is undefined\n"+format.format() + message);
         }
         checkFirst();
     }
@@ -56,16 +52,12 @@ public class Logger {
      * @see LogFormat
      */
     public static void error(String message, LogFormat format) {
-        switch (mode) {
-            case NEW_LINE:
-                errorStream.println(format.format() + message);
-                break;
-            case ONE_LINE:
-                errorStream.print(format.format() + message);
-                break;
-            default:
-                errorStream.println("WARNING: LoggerMode is undefined\n"+format.format() + message);
-                break;
+        if(mode == LoggerMode.NEW_LINE) {
+            errorStream.println(format.format() + message);
+        } else if(mode == LoggerMode.ONE_LINE) {
+            errorStream.print(format.format() + message);
+        } else {
+            errorStream.println("WARNING: LoggerMode is undefined\n"+format.format() + message);
         }
         checkFirst();
     }

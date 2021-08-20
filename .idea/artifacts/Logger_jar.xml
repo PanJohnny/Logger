@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Logger:jar">
+    <output-path>$PROJECT_DIR$/release/</output-path>
+    <root id="archive" name="Logger.jar">
+      <element id="module-output" name="Logger" />
+    </root>
+  </artifact>
+</component>

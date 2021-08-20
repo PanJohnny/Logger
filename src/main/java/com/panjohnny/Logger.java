@@ -29,10 +29,13 @@ public class Logger {
         switch (mode) {
             case NEW_LINE:
                 stream.println(format.format() + message);
+                break;
             case ONE_LINE:
                 stream.print(format.format() + message);
+                break;
             default:
                 stream.println("WARNING: LoggerMode is undefined\n"+format.format() + message);
+                break;
         }
         checkFirst();
     }
@@ -56,10 +59,13 @@ public class Logger {
         switch (mode) {
             case NEW_LINE:
                 errorStream.println(format.format() + message);
+                break;
             case ONE_LINE:
                 errorStream.print(format.format() + message);
+                break;
             default:
                 errorStream.println("WARNING: LoggerMode is undefined\n"+format.format() + message);
+                break;
         }
         checkFirst();
     }

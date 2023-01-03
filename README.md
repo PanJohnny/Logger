@@ -1,6 +1,5 @@
 # Logger
-A java logger for all of you
-Use class com.panjohnny.Logger and log what you want
+A java logger that should replace default System.Logger. If it doesn't work, please use the com.panjohnny.logger
 
 WOW!
 # Add to your project

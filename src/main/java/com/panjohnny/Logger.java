@@ -1,112 +1,133 @@
 package com.panjohnny;
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
+
 import java.io.PrintStream;
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
 
-public class Logger {
-    private Logger() {}
-    private static LogFormat format = LogFormat.BLANK;
-    private static PrintStream stream = System.out;
-    private static LoggerMode mode = LoggerMode.NEW_LINE;
-    private static PrintStream errorStream = System.err;
-    private static boolean first = true;
-    private static long millis;
-    /**
-     * Logs in console message with default set LogFormat
-     * @param message message that would be logged
-     * @see LogFormat
-     */
-    public static void log(String message) {
-        log(message, format);
+@SuppressWarnings("unused")
+public class Logger implements System.Logger {
+
+    private final String name;
+    private LogFormat format = LogFormat.BLANK;
+    private PrintStream stream = System.out;
+    private LoggerMode mode = LoggerMode.NEW_LINE;
+
+    public Logger(String name) {
+        this.name = name;
     }
 
-    /**
-     * Logs in console message with specific LogFormat
-     * @param message message that would be logged
-     * @param format format that you want
-     * @see LogFormat
-     */
-    public static void log(String message, LogFormat format) {
-        if(mode == LoggerMode.NEW_LINE) {
-            stream.println(format.format() + message);
-        } else if(mode == LoggerMode.ONE_LINE) {
-            stream.print(format.format() + message);
-        } else {
-            stream.println("WARNING: LoggerMode is undefined\n"+format.format() + message);
-        }
-        checkFirst();
+    @Override
+    public String getName() {
+        return name;
     }
 
-    /**
-     * Logs error in console with default set LogFormat
-     * @param message message that would be logged
-     * @see LogFormat
-     */
-    public static void error(String message) {
-        error(message, format);
+    @Override
+    public boolean isLoggable(Level level) {
+        return true;
     }
 
-    /**
-     * Logs error in console with specific LogFormat
-     * @param message message that would be logged
-     * @param format format that you want
-     * @see LogFormat
-     */
-    public static void error(String message, LogFormat format) {
-        if(mode == LoggerMode.NEW_LINE) {
-            errorStream.println(format.format() + message);
-        } else if(mode == LoggerMode.ONE_LINE) {
-            errorStream.print(format.format() + message);
-        } else {
-            errorStream.println("WARNING: LoggerMode is undefined\n"+format.format() + message);
-        }
-        checkFirst();
-    }
+    @Override
+    public void log(Level level, ResourceBundle bundle, String msg, Throwable thrown) {
+        if (isLoggable(level)) {
 
-    private static void checkFirst() {
-        if(first) {
-            millis = System.currentTimeMillis();
-            first=false;
+            stream.print("[" + getName() + "/" + level.getName() + "] ");
+
+            switch (level) {
+                case ERROR:
+                     print(err(msg));
+                    break;
+                case WARNING:
+                     print(warn(msg));
+                    break;
+                case DEBUG:
+                     print(debug(msg));
+                    break;
+                case INFO:
+                    print(info(msg));
+                    break;
+                default:
+                     print(msg);
+            }
+
+            stream.print(Ansi.generateCode(Attribute.RED_TEXT()));
+            thrown.printStackTrace(stream);
+            stream.print(Ansi.generateCode(Attribute.REVERSE()));
         }
     }
 
-    public static LogFormat getFormat() {
+    @Override
+    public void log(Level level, ResourceBundle bundle, String format, Object... params) {
+        if (isLoggable(level)) {
+            String msg = MessageFormat.format(format, params);
+
+            stream.print("[" + getName() + "/" + level.getName() + "] ");
+
+            switch (level) {
+                case ERROR:
+                     print(err(msg));
+                    break;
+                case WARNING:
+                     print(warn(msg));
+                    break;
+                case DEBUG:
+                     print(debug(msg));
+                    break;
+                case INFO:
+                    print(info(msg));
+                    break;
+                default:
+                     print(msg);
+            }
+        }
+    }
+
+    private String err(String msg) {
+        return Ansi.colorize(msg, Attribute.RED_TEXT());
+    }
+
+    private String warn(String msg) {
+        return Ansi.colorize(msg, Attribute.YELLOW_TEXT());
+    }
+
+    private String debug(String msg) {
+        return Ansi.colorize(msg, Attribute.TEXT_COLOR(135, 135, 135));
+    }
+
+    private String info(String msg) {
+        return Ansi.colorize(msg, Attribute.TEXT_COLOR(255, 255, 255));
+    }
+
+    private void print(String msg) {
+        stream.print(format.format() + msg + mode.getValue());
+    }
+
+    public Logger setFormat(LogFormat format) {
+        this.format = format;
+        return this;
+    }
+
+    public Logger setStream(PrintStream stream) {
+        this.stream = stream;
+        return this;
+    }
+
+    public Logger setMode(LoggerMode mode) {
+        this.mode = mode;
+        return this;
+    }
+
+    public LogFormat getFormat() {
         return format;
     }
 
-    public static void setFormat(LogFormat format) {
-        Logger.format = format;
-    }
-
-    public static PrintStream getStream() {
-        return stream;
-    }
-
-    public static void setStream(PrintStream stream) {
-        Logger.stream = stream;
-    }
-
-    public static LoggerMode getMode() {
+    public LoggerMode getMode() {
         return mode;
     }
 
-    public static void setMode(LoggerMode mode) {
-        Logger.mode = mode;
-    }
-
-    public static PrintStream getErrorStream() {
-        return errorStream;
-    }
-
-    public static void setErrorStream(PrintStream errorStream) {
-        Logger.errorStream = errorStream;
-    }
-
-    public static long getFirstLogTime() {
-        return millis;
-    }
-
-    public enum LoggerMode {
-        NEW_LINE,
-        ONE_LINE;
+    public PrintStream getStream() {
+        return stream;
     }
 }

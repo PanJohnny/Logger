@@ -6,12 +6,37 @@
 
     <groupId>com.panjohnny</groupId>
     <artifactId>Logger</artifactId>
-    <version>1.0</version>
+    <version>3.0</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>9</maven.compiler.source>
+        <maven.compiler.target>9</maven.compiler.target>
     </properties>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.diogonunes</groupId>
+            <artifactId>JColor</artifactId>
+            <version>5.5.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

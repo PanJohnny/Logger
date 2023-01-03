@@ -1,14 +1,14 @@
 package com.panjohnny;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class LogFormat {
-    private String format;
-    private char propertyRegex;
-    private LogProperty[] properties;
-    private List<Integer> indexes = new ArrayList<>();
+    private final String format;
+    private final char propertyRegex;
+    private final LogProperty[] properties;
+    private final List<Integer> indexes = new ArrayList<>();
     
     public static final LogFormat BLANK = new LogFormat("", '0', LogProperty.BLANK);
     /**
@@ -32,19 +32,19 @@ public class LogFormat {
      * @return yes
      */
     public String format() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         if(properties[0] == LogProperty.BLANK) return getFormat();
         int propertyNum = 0;
         for (int i = 0; i < format.length(); i++) {
             if(indexes.contains(i) && propertyNum < properties.length) {
                 LogProperty p = properties[propertyNum];
-                result+=p.get();
+                result.append(p.get());
                 propertyNum++;
             } else {
-                result+=format.charAt(i);
+                result.append(format.charAt(i));
             }
         }
-        return result;
+        return result.toString();
     }
 
     public String getFormat() {

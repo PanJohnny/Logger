@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+@SuppressWarnings("unused")
 public class LogProperty {
     public static final LogProperty DATE_TIME = new LogProperty(() -> {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd' T:'HH:mm:ssZ");
@@ -15,15 +16,7 @@ public class LogProperty {
 
     public static final LogProperty BLANK = new LogProperty(() -> "");
 
-    public static final LogProperty TIME_FROM_FIRST_LOG = new LogProperty(() -> {
-        long first = Logger.getFirstLogTime();
-        long time = System.currentTimeMillis() - first;
-        SimpleDateFormat format = new SimpleDateFormat("mm:ss");
-        format.setTimeZone(Calendar.getInstance().getTimeZone());
-        return format.format(new Date(time));
-    });
-
-    private LogProperty.Action action;
+    private final LogProperty.Action action;
     public LogProperty(LogProperty.Action action) {
         this.action=action;
     }

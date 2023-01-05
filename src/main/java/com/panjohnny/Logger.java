@@ -26,13 +26,12 @@ public class Logger implements System.Logger {
 
     @Override
     public boolean isLoggable(Level level) {
-        return true;
+        return level.getSeverity() > Level.DEBUG.getSeverity();
     }
 
     @Override
     public void log(Level level, ResourceBundle bundle, String msg, Throwable thrown) {
         if (isLoggable(level)) {
-
             stream.print("[" + getName() + "/" + level.getName() + "] ");
 
             switch (level) {

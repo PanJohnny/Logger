@@ -1,11 +1,15 @@
 # Logger
-A java logger that should replace default System.Logger. If it doesn't work, please use the com.panjohnny.logger
+A java logger that should replace default System.Logger (java.util.logging.Logger)
 
-WOW!
-# Add to your project
+Output scheme:
+```log
+[Name/LEVEL] message
+```
+# Usage
+## Setup
 Latest release <br>
 [![](https://jitpack.io/v/PanJohnny/Logger.svg)](https://jitpack.io/#PanJohnny/Logger)
-## Maven
+### Maven
 Add this to your pom.xml and replace VERSION with the latest release tag
 ```xml
 <repository>
@@ -21,7 +25,7 @@ Add this to your pom.xml and replace VERSION with the latest release tag
 </dependency>
 ```
 
-## Gradle
+### Gradle
 Add this to your build.gradle and replace VERSION with the latest release tag
 ```gradle
     repositories {
@@ -34,4 +38,16 @@ Add this to your build.gradle and replace VERSION with the latest release tag
     }
 ```
 
-For more look [here](https://jitpack.io/#PanJohnny/Logger)
+For more platforms look [on jitpack](https://jitpack.io/#PanJohnny/Logger).
+
+## Snippet
+```java
+final System.Logger logger = System.getLogger("MyLogger");
+
+logger.log(System.Logger.Level.INFO, "Hello, World!");
+```
+
+Expected output:
+```log
+[MyLogger/INFO] Hello, World!
+```
